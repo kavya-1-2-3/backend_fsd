@@ -1,22 +1,35 @@
-{% extends 'website/common/base.html' %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home_redirect' %}">MyShop</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'home_redirect' %}">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'product_list' %}">All Products</a>
+        </li>
 
-{% block title %}Logged Out{% endblock %}
-
-{% block main_content %}
-<div class="container text-center py-5">
-    <div class="card p-5 shadow-lg border-0">
-        <div class="card-body">
-            <h1 class="display-4 text-info mb-4">👋 You have been logged out.</h1>
-            <p class="lead">Thank you for visiting! Your session has been successfully closed.</p>
-            <hr class="my-4">
-            
-            <p>You can log back in or continue browsing as a guest.</p>
-            
-            <div class="mt-4">
-                <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-3">Login Again</a>
-                <a href="{% url 'product_list' %}" class="btn btn-outline-secondary btn-lg">Continue Shopping</a>
-            </div>
-        </div>
+        {% if user.is_authenticated %}
+        <!-- Logout Form -->
+        <li class="nav-item">
+          <form method="POST" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link nav-link" style="display:inline; padding:0; color:white;">Logout</button>
+          </form>
+        </li>
+        {% else %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login' %}">Login</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+        </li>
+        {% endif %}
+      </ul>
     </div>
-</div>
-{% endblock %}
+  </div>
+</nav>

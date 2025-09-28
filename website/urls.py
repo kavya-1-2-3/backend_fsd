@@ -1,12 +1,6 @@
 from django.urls import include, path
 from . import views
 from django.contrib.auth import views as auth_views
-
-
-from django.urls import path, include
-from django.contrib.auth import views as auth_views
-from . import views
-
 urlpatterns = [
     # Root URL: redirect based on login status
     path('', views.home_redirect, name='home_redirect'),  
@@ -17,7 +11,8 @@ urlpatterns = [
         redirect_authenticated_user=True
     ), name='login'),
     path('signup/', views.signup, name='signup'), 
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(), name='logout'),
+
 
     # Product & Cart
     path('products/', views.product_list, name='product_list'),

@@ -1,65 +1,37 @@
 {% extends 'website/common/base.html' %}
 {% block title %}Cart{% endblock %}
-
-{% block main_content %}
-<h2 class="mb-4">Your Cart</h2>
-
+{% block content %}
+<h2>Your Cart</h2>
 {% if cart_products %}
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th>Product</th>
-      <th>Price</th>
-      <th>Quantity</th>
-      <th>Total</th>
-      <th>Action</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in cart_products %}
-    <tr>
-      <td>{{ item.product.name }}</td>
-      <td>${{ item.product.price }}</td>
-      <td>{{ item.quantity }}</td>
-      <td>${{ item.total_price }}</td>
-      <td>
-        <form action="{% url 'remove_from_cart' item.product.id %}" method="POST">
-          {% csrf_token %}
-          <button class="btn btn-danger btn-sm">Remove</button>
-        </form>
-      </td>
-    </tr>
-    {% endfor %}
-    <tr>
-      <td><strong>Subtotal</strong></td>
-      <td></td>
-      <td></td>
-      <td>${{ subtotal }}</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><strong>Shipping</strong></td>
-      <td></td>
-      <td></td>
-      <td>${{ shipping }}</td>
-      <td></td>
-    </tr>
-    <tr>
-      <td><strong>Total</strong></td>
-      <td></td>
-      <td></td>
-      <td>${{ order_total }}</td>
-      <td></td>
-    </tr>
-  </tbody>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Product</th><th>Quantity</th><th>Total</th><th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in cart_products %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>${{ item.total_price }}</td>
+            <td>
+                <form method="POST" action="{% url 'remove_from_cart' item.product.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">Remove</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
 </table>
-
-<form action="{% url 'checkout' %}" method="POST">
-  {% csrf_token %}
-  <button class="btn btn-success">Checkout</button>
-</form>
-
+<div class="mb-3">
+    <p>Subtotal: ${{ subtotal }}</p>
+    <p>Shipping: ${{ shipping }}</p>
+    <h5>Total: ${{ order_total }}</h5>
+    <a href="{% url 'checkout' %}" class="btn btn-success">Checkout</a>
+</div>
 {% else %}
-<p>Your cart is empty. <a href="{% url 'product_list' %}">Continue shopping</a>.</p>
+<p>Your cart is empty.</p>
 {% endif %}
 {% endblock %}
