@@ -1,0 +1,79 @@
+{% extends 'website/common/base.html' %}
+
+{% block title %}Login 🔑{% endblock %}
+
+{% block main_content %}
+    <style>
+        /* Ensures the form container fills the available height for centering */
+        .centered-form {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 85vh; /* Increased height for better centering */
+        }
+        .login-card {
+            width: 100%;
+            max-width: 420px; /* Slightly wider card for better mobile view */
+            border-radius: 1.25rem; /* Smoother, more modern rounded corners */
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Deeper, softer shadow */
+        }
+    </style>
+    
+    <div class="container centered-form">
+        <div class="card login-card border-0">
+            <div class="card-body p-5">
+                <h3 class="card-title text-center mb-5 fw-bolder text-primary">
+                    Welcome Back 🚀
+                </h3>
+                
+                <form class="needs-validation" novalidate action="{% url 'login' %}" method="POST">
+                    {% csrf_token %}
+                    
+                    {# Display generic non-field error (e.g., Invalid credentials) #}
+                    {% if form.non_field_errors %}
+                        <div class="alert alert-danger fade show mb-4 small" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            {% for error in form.non_field_errors %}
+                                {{ error }}
+                            {% endfor %}
+                        </div>
+                    {% elif error_message %}
+                        {# If you're using a custom error_message context variable #}
+                        <div class="alert alert-danger fade show mb-4 small" role="alert">
+                            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                            {{ error_message }}
+                        </div>
+                    {% endif %}
+                    
+                    {# Username Input (Floating Label) #}
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="id_username" name="username" placeholder="Username" required>
+                        <label for="id_username">Username</label>
+                        <div class="invalid-feedback">Please enter your username.</div>
+                    </div>
+
+                    {# Password Input (Floating Label) #}
+                    <div class="form-floating mb-4">
+                        <input type="password" class="form-control" id="id_password" name="password" placeholder="Password" required>
+                        <label for="id_password">Password</label>
+                        <div class="invalid-feedback">Please enter your password.</div>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-primary btn-lg fw-bold">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Log In
+                        </button>
+                    </div>
+                </form>
+                
+                <p class="text-center mt-4 text-muted small">
+                    Need an account? 
+                    <a href="{% url 'signup' %}" class="fw-bold text-decoration-none text-success">
+                        Sign Up Today
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'website/common/base.html' %}
+{% block title %}Product Catalog{% endblock %}
+
+{% block main_content %}
+<style>
+/* Custom CSS for a modern card hover effect */
+.product-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05); /* Very light border for depth */
+}
+.product-card:hover {
+    transform: translateY(-8px); /* Lifts the card slightly */
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175) !important; /* Deeper, softer shadow */
+}
+.card-image-placeholder {
+    height: 150px; /* Standard height for product image area */
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 2rem;
+}
+</style>
+
+<div class="container py-5">
+    <h1 class="text-center mb-5 display-4 fw-light text-secondary">Featured Products </h1>
+    
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 shadow-sm product-card border-0">
+                
+                
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="card-title text-dark fw-bold mb-1">{{ product.name }}</h5>
+                    <p class="fs-5 text-success fw-bolder mb-3">${{ product.price }}</p>
+                    
+                    <p class="card-text text-muted flex-grow-1 mb-3 small">
+                        {{ product.description|truncatewords:10 }}
+                    </p>
+                    
+                    <div class="d-grid mt-auto pt-3 border-top">
+                        <a href="{% url 'product_detail' product.id %}" class="btn btn-primary rounded-pill fw-medium">
+                            View Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
