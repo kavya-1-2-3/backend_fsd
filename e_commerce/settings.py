@@ -13,10 +13,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-#ycx#-av_9io#62h8kjpbbac8%t%k_sllt8xx2p=u0nnmne&ot"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 # Deployment host (Render)
-ALLOWED_HOSTS = ["fsdjango.onrender.com"]
+ALLOWED_HOSTS = [
+    'fsdjango.onrender.com', 
+    '127.0.0.1', 
+    'localhost',
+    'backend-fsd-8nod.onrender.com',
+]
+
+
 
 # Use custom user model
 AUTH_USER_MODEL = 'website.AuthUser'
@@ -110,3 +117,6 @@ CORS_ALLOW_ALL_ORIGINS = True
 # Redirects after login/logout (use named views, not hardcoded URLs)
 LOGIN_REDIRECT_URL = "product_list"
 LOGOUT_REDIRECT_URL = "login"
+
+
+CSRF_TRUSTED_ORIGINS = ['https://backend-fsd-8nod.onrender.com']
